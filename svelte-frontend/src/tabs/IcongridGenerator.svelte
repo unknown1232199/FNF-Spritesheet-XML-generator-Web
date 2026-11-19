@@ -137,48 +137,9 @@
 </div>
 
 <style>
-    #preview-div {
-        border: 2px solid grey;
-        margin: 2px;
-        height: 60vh;
-        overflow: scroll;
-    }
-
-    #controls {
-        display: grid;
-        border: 2px solid grey;
-        margin: 2px;
-        position: sticky;
-        z-index: 5;
-        bottom: 0;
-    }
-
-    .layout-normal {
-        grid-template-columns: repeat(5, 1fr);
-    }
-
-    .layout-legacy {
-        grid-template-columns: repeat(7, 1fr);
-    }
-
-    @media screen and (max-width: 530px)
-    {
-        .layout-legacy {
-            grid-template-columns: repeat(4, 1fr);
-        }
-    }
-
-    #controls > * {
-        display: flex;
-        align-items: center;
-    }
-
-    #legacy-mode {
-        transform: translateY(35%) translateX(-3px);
-        z-index: -1;
-    }
-
-    #legacy-mode-label {
-        padding: 0 5px;
-    }
+#preview-div{display:grid;place-items:center;min-height:260px;max-height:60vh;overflow:auto;margin:2px;padding:18px;border:1px solid var(--border-color);border-radius:10px;background-color:var(--background)}
+#preview-div img{display:block;max-width:100%;max-height:54vh;object-fit:contain;image-rendering:pixelated}
+#controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;align-items:center;margin:12px 2px 2px;padding:12px;border:1px solid var(--border-color);border-radius:10px;background:var(--background)}
+#controls p{margin:0;color:var(--muted,#9ba4b8);font-size:12px}#controls label{display:flex;align-items:center;gap:7px;font-size:12px}#controls button{min-height:38px}#legacy-mode{accent-color:#9c8cff}
+@media(max-width:530px){#controls{grid-template-columns:repeat(2,minmax(0,1fr))}#preview-div{min-height:210px}}
 </style>
