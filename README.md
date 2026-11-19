@@ -1,72 +1,55 @@
-# FnF-Spritesheet-and-XML-Maker-Web
-An (experimental) online version of the [FnF-Spritesheet-and-XML-Maker](https://github.com/UncertainProd/FnF-Spritesheet-and-XML-Maker), A Friday Night Funkin' mod making helper tool that allows you to generate XML files and spritesheets from individual pngs. This is a free and open-source mini-replacement tool to the "Generate Spritesheet" functionality in Adobe Animate/Flash
+# FNF Spritesheet & XML Generator Web
 
-### This tool can be used online by following [this link](https://uncertainprod.github.io/FNF-Spritesheet-XML-generator-Web). Tested mainly on Chrome and Firefox browsers
+A browser-based Friday Night Funkin' modding tool for building character spritesheets, XML atlases, animation previews and icon grids. This project is a web adaptation of [UncertainProd's original Spritesheet and XML Maker](https://github.com/UncertainProd/FnF-Spritesheet-and-XML-Maker).
 
+**Live project:** https://uncertainprod.github.io/FNF-Spritesheet-XML-generator-Web/
 
-![Inital Screen](imgdocs/initScreen.png)
+## Workspace
 
-## How to generate spritesheet and XML files for your character:
+- **Spritesheet generator:** add individual PNG frames or import an existing PNG + XML atlas.
+- **Frame selection:** select individual frames, select all, select a range, clone or delete selected frames.
+- **Animation tools:** assign animation prefixes, preview animations and adjust playback FPS and scale.
+- **XML editor:** inspect frame metadata, adjust offsets and dimensions, scale and flip frames, and apply expressions to multiple selected frames.
+- **Atlas settings:** configure padding, transparent-bound clipping and animation-name prefix rules.
+- **Exports:** generate a packed spritesheet + XML archive, or export a PNG sequence.
+- **Icongrid generator:** create a new icon grid or use the legacy grid workflow.
 
-First, the name of your character goes into the textbox at the top. This is necessary as the final xml and png files will be named accordingly.
-Eg: If you name you character <b>Pixel-GF</b> the files generated will be named <b>Pixel-GF.png</b> and <b>Pixel-GF.xml</b>
-If this box is blank, you will be prompted for a name when generating the spritesheet.
+The interface includes responsive layouts, dark/light themes and basic/advanced workspace density options. Image processing runs locally in the browser; selected files are not uploaded to a server.
 
-### Adding sprite frames
-To add a frames from PNG images, click on `Add PNGs`, and then select all the PNG images you want to insert as frames. 
+## Getting started
 
-If you want to extract and add frames from a pre-existing Spritesheet and XML, click on `Add Spritesheet`. It will then prompt you to insert your spritesheet and your XML and extract the frames from it.
+1. Open the live project in a modern browser (Chrome or Firefox recommended).
+2. Enter a character name. This name is used for exported files.
+3. Choose **Spritesheet Generator** or **Icongrid Generator**.
+4. Add your PNG frames, or import an existing spritesheet and its XML.
+5. Review the frames, set animation prefixes and adjust XML values as needed.
+6. Generate the atlas archive or a PNG sequence.
 
-Once you have added some frames it will look like this:
+### Notes about atlas packing
 
-![Added some example frames](imgdocs/addedFrames.png)
-<br />
-<br />
-Click on some frames whose animation prefix you want to set and then click the `Set animation prefix` button as shown below:
+The spritesheet packer trims unused space from the outer right and bottom edges of the generated atlas. Transparent frame clipping can also be configured in Settings. Keep clipping disabled if you need to preserve the original transparent frame bounds.
 
-![Animation prefix button](imgdocs/settingAnimPrefix.png)
-![Setting Animation Prefix](imgdocs/addAnimPrefix.png)
+Large images use browser memory while being processed. For smoother results, avoid loading extremely large source atlases or too many high-resolution frames at once.
 
-Once you click the `Set animation prefix` button in the dialog, it will set that animation name for all the frames that are selected.
+## Build from source
 
-### Previewing The Animations
-By click on `View` > `View Animation`, you can select the name of the animation you want to see and click the play button to play that animation. In case the animation is too big (usually on phone screens), you can change the `Animation Scale` to reduce the size of the animation for better visibility.
-![Animation View](imgdocs/animationView.png)
+Requirements:
+- [Rust toolchain](https://www.rust-lang.org/tools/install)
+- [Node.js and npm](https://nodejs.org/en/download)
+- wasm-pack
 
-### Tweaking the sprite frames
-By going into `View` > `View XML structure`, you can change the appearance of each sprite frame. It supports scaling, flipping and changing the values of `frameX`, `frameY`, `frameWidth` and `frameHeight`.
+From the svelte-frontend directory:
 
-![XML Table View](imgdocs/xmlViewTable.png)
-![Frame Preview](imgdocs/xmlViewFrame.png)
+    npm install
+    npm run dev
 
-### Generating the final XML and PNG files
-When you're done adding all the frames and giving them animation names, it's time to generate the final PNG and XML files!
-To do so, just click the "Generate XML" button. This will download a zip file containing the final Spritesheet and the XML. This could take a while depending on how large the input spritesheets/frames are.
-<br />
+Create a production build with:
 
-### Important thing to know when uploading large spritesheets:
-Since the app runs entirely in the browser, all images are that are loaded are kept in memory by the browser. So expect the memory usage of your browser to increase (sometimes by a _lot_) when using this app.
+    npm run build
 
-Also try not to upload spritesheets that are too big (aka several gigabytes) in size, as there is a chance that it might _really_ slow down (or worse, crash) your browser while the frames are being processed, or while the final spritesheet is being generated.
-<br/><br/>
+## Credits
 
+- Original web implementation and Rust/WebAssembly image packer: [UncertainProd](https://github.com/UncertainProd/FNF-Spritesheet-XML-generator-Web)
+- Original desktop tool: [FnF-Spritesheet-and-XML-Maker](https://github.com/UncertainProd/FnF-Spritesheet-and-XML-Maker)
 
-## Making Icons / Icongrids
-You can create icons by just clicking on `Add Icons`, then selecting 2 icon png files of size 150 x 150 and then clicking `Generate Icongrid`. This generates an icongrid that can be used.
-
-The app also supports making Icongrids (mainly only used by the pre-week 7 base engine), where you can upload an icongrid, then choose the icons you wish to add and then click `Generate Icongrid`. This legacy feature can be enabled by checking the `Legacy Mode` checkbox.
-<br />
-<br />
-
-## Building the app:
-Since this is a web app, there is no need to build this from source if all you intend on doing is using the app. Just use the app [here](https://uncertainprod.github.io/FNF-Spritesheet-XML-generator-Web)
-
-But for developers, you need the [Rust](https://www.rust-lang.org/tools/install) toolchain as well as [Node.js (and npm)](https://nodejs.org/en/download) installed. You also need `wasm-pack` to compile Rust into Webassmebly, follow the instructions [here](https://rustwasm.github.io/docs/book/game-of-life/setup.html) for setting that up.
-
-- To build the app go into the `svelte-frontend` folder and open a command prompt/terminal window in that folder
-- Type in `npm install` to automatically install all the dependencies needed for both the Javascript code
-- Then type `npm run dev` to start the app in debug mode. In order to build in release mode use `npm run build` instead. The first build will take a while as all the Rust dependencies will have to get downloaded and compiled before building the app.
-
-<small>Note: This app is still in a WIP phase and is not fully fleshed out yet (especially the UI) but it supports pretty much everything that the older application supported</small>
-
-#### Side note: Credit this repo if you are going to make your own fork and stuff :)
+This fork keeps the upstream project structure and credits. See [LICENSE](LICENSE) for license details.
