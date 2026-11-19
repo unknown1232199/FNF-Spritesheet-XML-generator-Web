@@ -14,7 +14,7 @@
     <meta name="description" content="Create and edit Friday Night Funkin' spritesheets, XML atlases and icongrids directly in your browser." />
     <meta name="theme-color" content="#11131b" />
 </svelte:head>
-<main class:advanced-mode={isAdvanced} class:light-mode={!isDark}>
+<main class:advanced-mode={isAdvanced} class:basic-mode={!isAdvanced} class:light-mode={!isDark}>
     <header class="topbar">
         <a class="brand" href="#top" aria-label="FNF Studio home"><span class="brand-mark">F</span><span class="brand-copy"><strong>FNF STUDIO</strong><small>SPRITESHEET WORKSPACE</small></span></a>
         <div class="top-actions"><span class="mode-label">{isAdvanced ? 'ADVANCED' : 'BASIC'} MODE</span><button class="mode-toggle" type="button" on:click={() => isAdvanced = !isAdvanced} aria-pressed={isAdvanced}>{isAdvanced ? 'Basic mode' : 'Advanced mode'}</button><button class="theme-toggle" type="button" on:click={() => isDark = !isDark} aria-label="Toggle color theme">{isDark ? '☼' : '☾'}</button></div>
