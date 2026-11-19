@@ -369,21 +369,27 @@ impl Packer for GrowingPacker
         }
         let result = helpers::bin_pack(rects.into_iter(), |im| (im.width*im.height) as i32)?;
         
-        Ok(
-            (
-                result.width(), 
-                result.height(), 
-                result.items
-                .into_iter()
-                .map(
-                    |(i, elem)| FitRect::new(
-                        elem.x as u32, elem.y as u32, 
-                        elem.width as u32, elem.height as u32, 
-                        i
-                    )
-                )
-                .collect()
-            )
-        )
+        // The growing bin packer can leave unused space at the far right or
+        // bottom edge after its last growth step. Calculate the actual occupied
+        // bounds so the exported PNG does not contain a large empty border.
+        let fits: Vec<FitRect> = result.items
+            .into_iter()
+            .map(|(i, elem)| FitRect::new(
+                elem.x, elem.y,
+                elem.width, elem.height,
+                i
+            ))
+            .collect();
+
+        let final_width = fits.iter()
+            .map(|fit| fit.x + fit.width)
+            .max()
+            .unwrap_or(0);
+        let final_height = fits.iter()
+            .map(|fit| fit.y + fit.height)
+            .max()
+            .unwrap_or(0);
+
+        Ok((final_width, final_height, fits))
     }
 }
